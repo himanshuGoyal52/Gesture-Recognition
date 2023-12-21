@@ -11,8 +11,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/gesture" element={<VideoStream />} />
+        <Route path="/" element={<App/>} />
+        <Route path="/gesture" element={<VideoStream/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

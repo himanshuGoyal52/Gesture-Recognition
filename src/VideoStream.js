@@ -8,6 +8,7 @@ import { drawHand } from './utils';
 import * as fp from 'fingerpose';
 import victory from './img/victory.png';
 import thumbs_up from './img/thumb.png';
+import yooGesture from './more_gestures/gestures';
 import yoo from './img/yoo.png'
 import { Link } from 'react-router-dom';
 
@@ -58,6 +59,7 @@ export default function VideoStream() {
           const GE = new fp.GestureEstimator([
             fp.Gestures.VictoryGesture,
             fp.Gestures.ThumbsUpGesture,
+            yooGesture
             // fp.Gestures.YooGesture,
           ])
 
