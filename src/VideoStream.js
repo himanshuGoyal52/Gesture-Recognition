@@ -8,8 +8,9 @@ import { drawHand } from './utils';
 import * as fp from 'fingerpose';
 import victory from './img/victory.png';
 import thumbs_up from './img/thumb.png';
-import yooGesture from './more_gestures/gestures';
+import { yooGesture , pointGesture} from './more_gestures/gestures';
 import yoo from './img/yoo.png'
+import point from './img/point.png'
 import { Link } from 'react-router-dom';
 
 
@@ -18,19 +19,20 @@ export default function VideoStream() {
   const canvasRef = useRef(null);
 
   const [emoji , setEmoji] = useState(null);
-  const images = {thumbs_up : thumbs_up , victory : victory , yoo : yoo};
+  const images = {thumbs_up : thumbs_up , victory : victory , yoo : yoo , point : point};
 
   const Handpose = async () => {
-    const net = await handpose.load();
+    // loadin the media pipe model
+    const model = await handpose.load();
     console.log('Handpose model loaded...');
     // loop and detect hands 
     setInterval(()=>{
-      detectHand(net);
+      detectHand(model);
     },100)
 
   }
 
-  const detectHand = async (net) => {
+  const detectHand = async (model) => {
     // check data is available
     if( typeof webcamRef.current !== 'undefined' && 
         webcamRef.current !== null && 
@@ -51,7 +53,7 @@ export default function VideoStream() {
         canvasRef.current.height = videoHeight;
 
         // make detections
-        const hand = await net.estimateHands(video);
+        const hand = await model.estimateHands(video);
         // console.log(hand);
 
         /// gesture detection
@@ -59,8 +61,8 @@ export default function VideoStream() {
           const GE = new fp.GestureEstimator([
             fp.Gestures.VictoryGesture,
             fp.Gestures.ThumbsUpGesture,
-            yooGesture
-            // fp.Gestures.YooGesture,
+            yooGesture,
+            pointGesture
           ])
 
           const gesture = GE ? await GE.estimate(hand[0].landmarks , 8) : '';
